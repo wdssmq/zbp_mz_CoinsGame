@@ -37,6 +37,14 @@ $tip->on = "show";
     </div>
     <div class="mz-field is-horizontal">
       <div class="field-label">
+        <label class="label font-14">解锁文章</label>
+      </div>
+      <div class="field-body">
+        {count($jwt.log.bot)} / 37 （{$jwt.periods}）
+      </div>
+    </div>
+    <div class="mz-field is-horizontal">
+      <div class="field-label">
         <label class="label font-14">JWT密钥<br>（只读）</label>
       </div>
       <div class="field-body">
@@ -56,6 +64,15 @@ $tip->on = "show";
             更新
           </button>
         </div>
+      </div>
+    </div>
+    <hr>
+    <div class="mz-field is-horizontal">
+      <div class="field-label">
+        <!--  -->
+      </div>
+      <div class="field-body">
+        <div>-help-</div>
       </div>
     </div>
     <!-- end .mz-field -->

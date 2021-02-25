@@ -28,6 +28,7 @@ class mz_CoinsGame_core
   {
     $rltData = self::$objJWT->GetData();
     $rltData["token"] = self::$objJWT->Token;
+    $rltData["periods"] = mz_CoinsGame_GenJTI("periods");
     return (object)$rltData;
   }
   public static function Update($dataInfo)
@@ -39,13 +40,11 @@ class mz_CoinsGame_core
         if (self::$objJWT->$name == $value) {
           continue;
         }
-        self::$objJWT->$name = $value;
-        $flag = true;
-        // // 跳过非预置的字段
-        // if (isset(self::$dataInfo[$name])) {
-        //   self::$objJWT->$name = $value;
-        //   $flag = true;
-        // }
+        // 跳过非预置的字段
+        if (isset(self::$dataInfo->$name)) {
+          self::$objJWT->$name = $value;
+          $flag = true;
+        }
       }
     }
     if ($flag)
@@ -73,20 +72,22 @@ function mz_CoinsGame_IsBot($PostID, &$jti = null)
 }
 
 /**
- * 见习
+ * 购买
  *
  * @param integer $PostID
  * @param integer $need 定价
- * @param [type] $data 用于回显余额等
+ * @param mixed $data 用于回显余额等
  * @return void
  */
 function mz_CoinsGame_BuyAct($PostID, $need = 1, &$data = null)
 {
   $data = mz_CoinsGame_core::GetJWTData();
   $jti = null;
+  // 已购买
   if (mz_CoinsGame_IsBot($PostID, $jti)) {
     return true;
   }
+  // 剩余积分不够
   if ($data->coins < $need) {
     return false;
   }
@@ -126,20 +127,18 @@ function mz_CoinsGame_GenJTI($type = "usr")
 {
   $time = time();
   switch ($type) {
-    case 'usr':
-      return intval($time / 300);
-      break;
     case 'rss':
     case 'qq':
     case 'sign':
       return intval($time / 86400);
       break;
     case 'bot':
+    case 'periods':
       return intval($time / 86400 / 37);
       break;
-
+    case 'usr':
     default:
-      # code...
+      return intval($time / 300);
       break;
   }
 }

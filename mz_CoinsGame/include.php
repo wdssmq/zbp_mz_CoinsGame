@@ -92,7 +92,10 @@ function mz_CoinsGame_GenPage($content)
 }
 function mz_CoinsGame_GenTpl(&$templates)
 {
+  global $zbp;
+  $help = $zbp->Config('mz_CoinsGame')->help;
   $tplCont = file_get_contents(mz_CoinsGame_Path("tpl-board"));
+  $tplCont = str_replace("-help-", $help, $tplCont);
   $templates["plugin_mz_CoinsGame_board"] = $tplCont;
 }
 function mz_CoinsGame_Post()
@@ -167,7 +170,23 @@ function InstallPlugin_mz_CoinsGame()
     $zbp->Config('mz_CoinsGame')->path = "CoinsGame";
     $zbp->SaveConfig('mz_CoinsGame');
   }
+  if (!$zbp->Config('mz_CoinsGame')->HasKey("help")) {
+    $filePath = mz_CoinsGame_Path("tpl/help.php");
+    $fileCon  = file_get_contents($filePath);
+    $zbp->Config('mz_CoinsGame')->help = $fileCon;
+    $zbp->SaveConfig('mz_CoinsGame');
+  }
   $zbp->BuildTemplate();
+}
+// 插件升级时执行
+function UpdatePlugin_mz_CoinsGame()
+{
+  InstallPlugin_mz_CoinsGame();
+}
+// 旧版兼容
+function mz_CoinsGame_Updated()
+{
+  UpdatePlugin_mz_CoinsGame();
 }
 function UninstallPlugin_mz_CoinsGame()
 {
