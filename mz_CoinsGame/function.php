@@ -26,10 +26,12 @@ class mz_CoinsGame_core
   }
   public static function GetJWTData()
   {
-    $rltData = self::$objJWT->GetData();
-    $rltData["token"] = self::$objJWT->Token;
-    $rltData["periods"] = mz_CoinsGame_GenJTI("periods");
-    return (object)$rltData;
+    $rltData = self::$objJWT->GetData(1);
+    $rltData->token = self::$objJWT->Token;
+    $rltData->periods = mz_CoinsGame_GenJTI("periods");
+    $rltData->isSign = mz_CoinsGame_IsSign($rltData);
+    $rltData->isFeed = StorJWT_PubGet("isFeed");
+    return $rltData;
   }
   public static function Update($dataInfo)
   {
@@ -117,7 +119,12 @@ function mz_CoinsGame_SignAct()
     return false;
   }
   $data->log->sign[] = $jti;
-  $data->coins++;
+  $coins = $data->coins * 10;
+  $add = 10;
+  if ($data->isFeed) {
+    $add += 3;
+  }
+  $data->coins = (intval($coins) + $add) / 10;
   $rltData = array("jwt-log" => $data->log, "jwt-coins" => $data->coins);
   mz_CoinsGame_core::Update($rltData);
   return true;
@@ -148,5 +155,5 @@ function mz_CoinsGame_a($href, $title, $text = "")
   if (empty($text)) {
     $text = $href;
   }
-  return "<a target=\"_blank\" href=\"{$href}\" title=\"{$title}\">$text</a>";
+  return "<a class=\"\" target=\"_blank\" href=\"{$href}\" title=\"{$title}\">$text</a>";
 }

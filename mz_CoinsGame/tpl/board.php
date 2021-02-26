@@ -1,9 +1,20 @@
 {php}
+$coins = 1;
+
+$feed = (object) array();
+$feed->info = $isFeed ? "已订阅" : mz_CoinsGame_a($feedurl,"RSS订阅","订阅用户签到加0.3");
+$feed->info = str_replace('class=""','class="button is-info small"',$feed->info);
+
+if ($isFeed){
+$coins += 0.3;
+}
+
 $sign = (object) array();
-$sign->info = $isSign ? "已签到" : "签到 +1";
+$sign->info = $isSign ? "已签到" : "签到 +{$coins}";
 if (!empty($tip->info)) {
 $tip->on = "show";
 }
+$feedurlEncode = urlencode($feedurl);
 {/php}
 
 <form id="jwt-form" action="{$board}" method="POST">
@@ -32,7 +43,9 @@ $tip->on = "show";
         <label class="label font-14">积分</label>
       </div>
       <div class="field-body">
-        {$jwt.coins} <div class="padding-left"><button id="jwt-btn-sign" type="button" class="button is-info small">{$sign.info}</button></div>
+        {$jwt.coins}
+        <div class="padding-left"><button id="jwt-btn-sign" type="button" class="button is-info small">{$sign.info}</button></div>
+        <div class="padding-left">{$feed.info}</div>
       </div>
     </div>
     <div class="mz-field is-horizontal">

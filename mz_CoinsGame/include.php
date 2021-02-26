@@ -48,11 +48,14 @@ function mz_CoinsGame_ViewPage($inpurl, $url)
     $tip = mz_CoinsGame_Post();
     // 读取JWT信息
     $dataJWT = mz_CoinsGame_core::GetJWTData();
-    $board = mz_CoinsGame_Path("board");
-    $isSign = mz_CoinsGame_IsSign($dataJWT);
+    // 面板地址，用于接受post
+    $board = mz_CoinsGame_Path("board", "host");
+    $isSign = $dataJWT->isSign;
+    $isFeed = $dataJWT->isFeed;
     $zbp->template->SetTags('tip', $tip);
     $zbp->template->SetTags('jwt', $dataJWT);
     $zbp->template->SetTags('isSign', $isSign);
+    $zbp->template->SetTags('isFeed', $isFeed);
     $zbp->template->SetTags('board', $board);
     $content = $zbp->template->Output("plugin_mz_CoinsGame_board");
     mz_CoinsGame_GenPage($content);
@@ -81,19 +84,14 @@ function mz_CoinsGame_GenPage($content)
   $zbp->template->SetTags('title', $article->Title);
   $zbp->template->SetTags('article', $article);
   $zbp->template->Display();
-
-  $geetestOn = $zbp->CheckPlugin('xnxf_geetest') ? true : false;
-  if ($geetestOn) {
-    foreach ($GLOBALS['hooks']['Filter_Plugin_ViewPost_Template'] as $fpname => &$fpsignal) {
-      $fpreturn = $fpname($zbp->template);
-    }
-    // $zbp->footer = str_replace("<!--gtplug-->", '<script src="' . aff_Path("Table.js", "host") . '" type="text/javascript"></script><!--gtplug-->', $zbp->footer);
-  }
 }
 function mz_CoinsGame_GenTpl(&$templates)
 {
   global $zbp;
-  $help = $zbp->Config('mz_CoinsGame')->help;
+  // $help = $zbp->Config('mz_CoinsGame')->help;
+  $filePath = mz_CoinsGame_Path("tpl/help.php");
+  $fileCon  = file_get_contents($filePath);
+  $help = $fileCon;
   $tplCont = file_get_contents(mz_CoinsGame_Path("tpl-board"));
   $tplCont = str_replace("-help-", $help, $tplCont);
   $templates["plugin_mz_CoinsGame_board"] = $tplCont;
@@ -170,12 +168,12 @@ function InstallPlugin_mz_CoinsGame()
     $zbp->Config('mz_CoinsGame')->path = "CoinsGame";
     $zbp->SaveConfig('mz_CoinsGame');
   }
-  if (!$zbp->Config('mz_CoinsGame')->HasKey("help")) {
-    $filePath = mz_CoinsGame_Path("tpl/help.php");
-    $fileCon  = file_get_contents($filePath);
-    $zbp->Config('mz_CoinsGame')->help = $fileCon;
-    $zbp->SaveConfig('mz_CoinsGame');
-  }
+  // if (!$zbp->Config('mz_CoinsGame')->HasKey("help")) {
+  //   $filePath = mz_CoinsGame_Path("tpl/help.php");
+  //   $fileCon  = file_get_contents($filePath);
+  //   $zbp->Config('mz_CoinsGame')->help = $fileCon;
+  //   $zbp->SaveConfig('mz_CoinsGame');
+  // }
   $zbp->BuildTemplate();
 }
 // 插件升级时执行
