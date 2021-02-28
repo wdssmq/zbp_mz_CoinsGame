@@ -18,16 +18,21 @@ function mz_CoinsGame_Ajax($src)
   if ($act === "buy") {
     $id = GetVars("id", "GET");
     $jwtData = null;
-    $rlt = mz_CoinsGame_BuyAct($id, 1, $jwtData);
-    $rltData = array("id" => $id);
-    if ($rlt) {
-      $rltData["msg"] = "购买成功";
-      $rltData["errcode"] = 0;
-      $rltData["coins"] = $jwtData->coins;
-    } else {
-      $rltData["msg"] = "失败或已购买";
-      $rltData["errcode"] = 1;
-      $rltData["coins"] = $jwtData->coins;
+    $rltCode = mz_CoinsGame_BuyAct($id, 1, $jwtData);
+    $rltData = array("id" => $id, "rltcode" => $rltCode, "coins" => $jwtData->coins);
+    switch ($rltCode) {
+      case 0:
+        $rltData["msg"] = "余额不足";
+        break;
+      case 1:
+        $rltData["msg"] = "购买成功";
+        break;
+      case 2:
+        $rltData["msg"] = "已购买";
+        break;
+      default:
+        # code...
+        break;
     }
     header('Content-type: application/json');
     echo json_encode($rltData);

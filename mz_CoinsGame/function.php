@@ -79,7 +79,7 @@ function mz_CoinsGame_IsBot($PostID, &$jti = null)
  * @param integer $PostID
  * @param integer $need 定价
  * @param mixed $data 用于回显余额等
- * @return void
+ * @return int 0|1|2 失败|成功|已购买
  */
 function mz_CoinsGame_BuyAct($PostID, $need = 1, &$data = null)
 {
@@ -87,17 +87,17 @@ function mz_CoinsGame_BuyAct($PostID, $need = 1, &$data = null)
   $jti = null;
   // 已购买
   if (mz_CoinsGame_IsBot($PostID, $jti)) {
-    return true;
+    return 2;
   }
   // 剩余积分不够
   if ($data->coins < $need) {
-    return false;
+    return 0;
   }
   $data->log->bot[] = $jti;
   $data->coins -= $need;
   $rltData = array("jwt-log" => $data->log, "jwt-coins" => $data->coins);
   mz_CoinsGame_core::Update($rltData);
-  return true;
+  return 1;
 }
 
 // 签到判断
