@@ -43,7 +43,7 @@ function mz_CoinsGame_ViewPage($inpurl, $url)
 {
   global $zbp;
   $path = $zbp->Config('mz_CoinsGame')->path;
-  $r = "/^{$path}\/?([^\/]*)$/";
+  $r = "/^{$path}\/?([^\/]*)$/i";
   // echo $r;
   // echo "<br />";
   // echo $url;
