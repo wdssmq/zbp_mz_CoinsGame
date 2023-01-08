@@ -21,8 +21,8 @@
 <adapted>151935</adapted>
 <version>1.0.9</version>
 <pubdate>2021-01-14</pubdate>
-<modified>2021-02-28</modified>
-<price>37</price>
+<modified>2023-01-08</modified>
+<price>0</price>
 <phpver>5.4</phpver>
 <advanced>
   <dependency>StorJWT</dependency>
