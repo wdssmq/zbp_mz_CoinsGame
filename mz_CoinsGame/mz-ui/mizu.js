@@ -1,4 +1,3 @@
-/* global $ */
 $(function () {
   // tabs
   function fnToggleTab() {
