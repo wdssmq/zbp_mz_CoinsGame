@@ -130,7 +130,7 @@
   <hr><!-- -------- -->
   <p>文章推荐：「<a target="_blank" href="https://www.wdssmq.com/post/20201231613.html" title="「言说」RSS 是一种态度！！">RSS 是一种态度</a>」「<a href="https://www.wdssmq.com/post/20200617652.html" target="_blank" title="「水坑」系列教程索引_电脑网络_沉冰浮水">「水坑」系列教程索引_电脑网络_沉冰浮水</a>」</p>
   <hr><!-- -------- -->
-  <p>爱发电：<a target="_blank" href="https://afdian.net/@wdssmq" title="爱发电">https://afdian.net/@wdssmq</a></p>
+  <p>爱发电：<a target="_blank" href="https://afdian.com/@wdssmq" title="爱发电">https://afdian.com/@wdssmq</a></p>
   <p>[AD：<a title="老薛主机" target="_blank" href="https://my.laoxuehost.net/aff.php?aff=294">PHP 美国空间</a> 优惠码：15off-xnxf ]</p>
   <p>[AD：<a title="主机云" target="_blank" href="https://my.hostyun.com/page.aspx?c=referral&u=8680">vps-主机云</a>]</p>
   <p>更多广告：<a title="Vultr" target="_blank" href="https://www.wdssmq.com/category/%E5%B9%BF%E5%91%8A%E6%85%8E%E5%85%A5/">广告慎入 - 沉冰浮水</a></p>
